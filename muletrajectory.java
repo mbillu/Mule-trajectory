@@ -7,7 +7,7 @@ class DijkstrasAlgorithm {
 	static int[] parents = new int[15];
 	static int[] tower =new int[]{0,3,5};
 	static int[] tempclusters=new int[]{0,0,3,3,5,5,5,0,0,5,0,0,0,0,0};
-	static int[] mules=new int[]{3,1,2};
+	static int[] mules=new int[3];
 	static int[][] counts=new int[3][15];
 	static int[][] counts1=new int[3][3];
 	static int[][] counts2=new int[3][15];
@@ -101,7 +101,8 @@ class DijkstrasAlgorithm {
 	private static void printSolution(int startVertex,int[] distances,int[] parents)
 	{
 		int nVertices = distances.length;
-		//System.out.print("Vertex\t Distance\tPath");
+		System.out.println();
+		System.out.print("Vertex\t Distance\tPath");
 		
 		for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++) 
 		{
@@ -191,7 +192,8 @@ class DijkstrasAlgorithm {
 	private static void printSolution1(int startVertex,int[] distances,int[] parents)
 	{
 		int nVertices = distances.length;
-		
+			System.out.println();
+		System.out.print("Vertex\t Distance\tPath");
 		for (int vertexIndex = 0; vertexIndex < nVertices; vertexIndex++) 
 		{
 			if (vertexIndex != startVertex && startVertex==tempclusters[vertexIndex]) 
@@ -203,7 +205,8 @@ class DijkstrasAlgorithm {
 			            int pos=counts1[i][j];
 			            if(pos==vertexIndex)
 			            {
-			                System.out.println();
+			                System.out.print("\n" + startVertex + " -> ");
+				            System.out.print(vertexIndex + " \t\t ");
 			                System.out.print(distances[vertexIndex] + "\t\t");
 			                printPath1(vertexIndex, parents,startVertex);
 			            }
@@ -287,9 +290,11 @@ class DijkstrasAlgorithm {
 		        }
 				    //int currentVertex=counts1[j][1];
 		        int flag=0;
+		        System.out.println();
+		        System.out.println("change in path of mule denoted by last left node");
+		        
 			while(currentVertex!=-1)
 	  	        {
-		        	//System.out.println();
 		                System.out.print(currentVertex+" ");
 		                
 		                if(currentVertex==index1 && flag==0)
@@ -304,6 +309,7 @@ class DijkstrasAlgorithm {
 		                    //visited[currentVertex]=1;
 		                }
 		        }
+		        System.out.println();
 		        break;
 		}
 	    }
@@ -313,6 +319,7 @@ class DijkstrasAlgorithm {
 
      public static void main(String[] args)
      {
+         Scanner scan=new Scanner(System.in);
 	int[][] adjacencyMatrix = {{0, 5, 0, 0, 0, 0, 0, 0, 0, 0, 3, 0, 0, 0, 0},
                                    {5, 0, 4, 0, 5, 0, 0, 0, 0, 4, 3, 0, 0, 0, 0},
                                    {0, 4, 0, 4, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
@@ -329,38 +336,46 @@ class DijkstrasAlgorithm {
                                    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 3},
                                    {0, 0, 0, 0, 0, 0, 0, 0, 2, 0, 0, 2, 0, 3, 0} };
 	
+	System.out.println("enter mules for each cluster based on number of nodes in cluster");
+	System.out.println("for two nodes assume one mule");
+	
+	for(int i=0;i<3;i++)
+	{
+	    mules[i]=scan.nextInt();
+	}
 	
 	for(int i=0;i<3;i++)
     	{
+    	    System.out.println();
 	        System.out.print("for tower at "+tower[i]);
 	    	dijkstra(adjacencyMatrix, tower[i]);
 	    	p++;
 	}
-	    
+	
 	choosepath(adjacencyMatrix);
 	    
 	System.out.println();
 	    
 	Arrays.fill(visited, 0);
-	    
+	System.out.println("Paths as per number of mules allocated and number of nodes covered for cluster "+tower[0]+" "+tower[1]+" "+tower[2]);
 	markvisit(adjacencyMatrix);
-	    
+	
 	System.out.println();
+	System.out.println("remaining nodes denoted by 0");    
 	
 	for(int j=0;j<15;j++)
 	{
 		System.out.print( visited[j]+" ");
 	}
-	   
-	    
+	System.out.println();
+	
 	check(adjacencyMatrix);
 	
 	System.out.println();
-	System.out.println();
+	System.out.println("All nodes are covered");
 	for(int j=0;j<15;j++)
 	{
 	        System.out.print( visited[j]+" ");
 	}
       }
 }
-
